@@ -46,14 +46,22 @@ public class Controller implements Initializable {
 
     public void drawAll(GraphicsContext gc) {
         Random rand = new Random();
+        int dist = 0;
         for (int i = 0; i < 20; i++) {
             double r = rand.nextDouble();
             double g = rand.nextDouble();
             double b = rand.nextDouble();
-            Rectangle rectangle =
-                    new Rectangle(i * 30, 0, arr[i], new Color(r, g, b, 1));
-            rectangle.draw(gc);
-            rects.add(rectangle);
+
+            try {
+                Rectangle rectangle =
+                        new Rectangle(dist, 0, arr[i], new Color(r, g, b, 1));
+                rectangle.draw(gc);
+                dist += arr[i];
+                rects.add(rectangle);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+
         }
 
     }

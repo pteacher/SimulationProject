@@ -8,18 +8,25 @@ public class Rectangle extends Shape {
     private int y;
     private Color color;
 
-    public Rectangle(int x, int y, int size, Color color) {
+    public Rectangle(int x, int y, int size, Color color) throws Exception {
         this.x = x;
         this.y = y;
-        this.size = size;
+        setSize(size);
         this.color = color;
     }
 
     @Override
     public void draw(GraphicsContext gc) {
         gc.setFill(color);
-        gc.fillRect(x + size / 2,
+        gc.fillRect(x,
                 y,
                 size, size);
+    }
+
+    public void setSize(int size) throws Exception {
+        if (size < 0 || size > 1000) {
+            throw new Exception("Size is too big or small. It cant be less than 0 or more than 1000");
+        }
+        this.size = size;
     }
 }
