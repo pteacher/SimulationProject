@@ -26,6 +26,9 @@ public class Controller implements Initializable {
     double r, g, b;
     int[] arr = new int[20];
     final int size = 30;
+    final int snakeSize = 5;
+    int[][] snakexy = new int[snakeSize][2];
+
     int x = 0;
     int y = 0;
 
@@ -40,7 +43,6 @@ public class Controller implements Initializable {
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
             drawAll(gc);
-            System.out.println("action");
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
@@ -63,16 +65,30 @@ public class Controller implements Initializable {
     }
 
     public void drawAll(GraphicsContext gc) {
-        Rectangle rectangle = null;
-        try {
-            rectangle = new Rectangle(x, y, size, new Color(r, g, b, 1));
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        for (int i = snakeSize - 1; i >= 0; i--) {
+            Rectangle rectangle = null;
+            try {
+                if (i == 0) {
+                    int dir = rand.nextInt(2);
+                    snakexy[i][0] += dir == 1? size:0;
+                    snakexy[i][1] += dir == 0? size:0;
+                    rectangle = new Rectangle(snakexy[i][0], snakexy[i][1], size, new Color(r, g, b, 1));
+
+                } else {
+                    snakexy[i][0] = snakexy[i-1][0];
+                    snakexy[i][1] = snakexy[i-1][1];
+                    rectangle = new Rectangle(snakexy[i][0], snakexy[i][1], size, new Color(r, g, b, 1));
+                }
+                rectangle.draw(gc);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
-        int dir = rand.nextInt(2);
-        x += dir == 1? size:0;
-        y += dir == 0? size:0;
-        rectangle.draw(gc);
+
+
+
 
 
     }
